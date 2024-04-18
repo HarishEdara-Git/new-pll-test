@@ -37,6 +37,11 @@ jobs:
             --role-session-name github-actions-eks-access \
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
+      - name: Update kubeconfig with EKS credentials
+        run: |
+          aws eks update-kubeconfig --name harisheks --region ${{ secrets.AWS_REGION }} --kubeconfig $HOME/.kube/config
+          kubectl config set-cluster harisheks --server=https://1E122A519D99993356246483D0C2739E.yl4.ap-south-1.eks.amazonaws.com --kubeconfig $HOME/.kube/config
+          # Replace YOUR_SERVER_ENDPOINT with your actual server endpoint URL
+
       - name: Apply deployment.yml
         run: kubectl apply -f .github/workflows/deployment.yml -n harish-pll
-
