@@ -1,7 +1,7 @@
+YAML
 name: My EKS Workflow
-on: push:
-  branches:
-    - main
+
+on: [push] # Trigger on push events (or other triggers as needed)
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
