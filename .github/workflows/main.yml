@@ -1,27 +1,26 @@
 name: My EKS Workflow
 
-on:
-  push:
-    branches:
-      - main
+on: push:
+  branches:
+    - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install AWS CLI
-        uses: aws-actions/aws-cli@v2
-        with:
-          aws-version: '2.28.0' # Or a compatible version
+      - name: Install AWS CLI (Optional, if not pre-installed on runner)
+        # ... (consider adding this step if needed)
 
       - name: Configure AWS credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set region ${{ secrets.AWS_REGION }}
+        uses: aws-actions/configure-aws-credentials@v2  # Corrected action name
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Get cluster credentials
         id: get-credentials
