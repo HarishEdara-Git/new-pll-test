@@ -37,8 +37,5 @@ jobs:
             --role-session-name github-actions-eks-access \
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
-      - name: Deploy Nginx to EKS (Improved)
-        run: |
-          source eks-credentials.txt  # Source the credentials file instead of individual exports
-
-          kubectl apply -f deployment.yml  # Corrected path for deployment.yml
+      - name: Apply deployment.yml
+        run: kubectl apply -deployment.yml -n ${{ secrets.NAMESPACE }}
