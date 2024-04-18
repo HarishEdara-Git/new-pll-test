@@ -38,4 +38,4 @@ jobs:
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
       - name: Apply deployment.yml
-        run: kubectl apply -f deployment.yml -n harish-pll
+        run: kubectl apply -f .github/workflows/deployment.yml -n harish-pll
