@@ -26,4 +26,4 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Get cluster credentials (Improved)
-        id: get-credentials
+        id: get-
