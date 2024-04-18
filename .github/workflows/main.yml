@@ -25,8 +25,8 @@ jobs:
       - name: Get cluster credentials (assuming the created role has describe rights)
         id: get-credentials
         run: |
-          cluster_name=<your-eks-cluster-name>
-          aws eks describe-cluster --name $cluster_name | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
+          cluster_name=harisheks
+          aws eks describe-cluster --name $harisheks | jq -r '.arn:aws:eks:ap-south-1:897708050608:cluster/harisheks cluster-identity-arn.txt
 
       - name: Assume role and store credentials (adapt based on your needs)
         run: |
