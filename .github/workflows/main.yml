@@ -1,9 +1,7 @@
 name: My EKS Workflow
-
 on: push:
   branches:
     - main
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -25,7 +23,7 @@ jobs:
       - name: Get cluster credentials (Improved)
         id: get-credentials
         run: |
-          aws eks describe-cluster --name harisheks | jq -r '.arn:aws:eks:ap-south-1:897708050608:cluster/harisheks' cluster-identity-arn.txt
+          aws eks describe-cluster --name harisheks | jq -r '.cluster.identityArn' > cluster-identity-arn.txt
 
       - name: Assume role and store credentials (Improved)
         run: |
