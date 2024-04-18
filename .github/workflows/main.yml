@@ -26,4 +26,19 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Get cluster credentials (Improved)
-        id: get-
+        id: get-credentials
+        run: |
+          aws eks describe-cluster --name harisheks | jq -r '.arn:aws:eks:ap-south-1:897708050608:cluster/harisheks' cluster-identity-arn.txt
+
+      - name: Assume role and store credentials (Improved)
+        run: |
+          aws sts assume-role \
+            --role-arn $(cat cluster-identity-arn.txt) \
+            --role-session-name github-actions-eks-access \
+            --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
+
+      - name: Deploy Nginx to EKS (Improved)
+        run: |
+          source eks-credentials.txt  # Source the credentials file instead of individual exports
+
+          kubectl apply -f nginx-deployment.yaml
