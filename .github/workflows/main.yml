@@ -41,4 +41,4 @@ jobs:
         run: |
           source eks-credentials.txt  # Source the credentials file instead of individual exports
 
-          kubectl apply -f deployment.yml
+          kubectl apply -f deployment.yml  # Corrected path for deployment.yml
