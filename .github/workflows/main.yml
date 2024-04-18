@@ -1,7 +1,10 @@
-YAML
 name: My EKS Workflow
 
-on: [push] # Trigger on push events (or other triggers as needed)
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -32,8 +35,4 @@ jobs:
             --role-session-name github-actions-eks-access \
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
-      - name: Deploy Nginx to EKS (Improved)
-        run: |
-          source eks-credentials.txt  # Source the credentials file instead of individual exports
-
-          kubectl apply -f nginx-deployment.yaml
+      - name: Deploy
