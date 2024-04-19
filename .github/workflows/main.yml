@@ -26,7 +26,7 @@ jobs:
         id: get-credentials
         run: |
           cluster_name=harisheks
-          aws eks describe-cluster --name $cluster_name | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
+          aws eks describe-cluster --name $harisheks | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
 
       - name: Assume role and store credentials (adapt based on your needs)
         run: |
@@ -36,7 +36,7 @@ jobs:
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
       - name: Update kubeconfig with EKS credentials
-        run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }} --kubeconfig ~/.kube/config
+        run: aws eks update-kubeconfig --name harisheks --region ap-south-1 --kubeconfig ~/.kube/config
 
       - name: Update Kubernetes cluster endpoint URL
         run: |
