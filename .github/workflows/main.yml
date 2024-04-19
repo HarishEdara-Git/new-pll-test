@@ -44,4 +44,4 @@ jobs:
       - name: Deploy to EKS Cluster
         run: |
           # Add your deployment commands here
-          kubectl apply -f deployment.yml -n my-namespace
+          kubectl apply -f .github/workflows/deployment.yml -n my-namespace
