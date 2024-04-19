@@ -35,6 +35,13 @@ jobs:
             --role-session-name github-actions-eks-access \
             --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
 
+      - name: Update kubeconfig with EKS credentials
+        run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }} --kubeconfig ~/.kube/config
+
+      - name: Update Kubernetes cluster endpoint URL
+        run: |
+          kubectl config set-cluster harisheks --server=https://1E122A519D99993356246483D0C2739E.yl4.ap-south-1.eks.amazonaws.com
+
       - name: Use AWS CLI to interact with EKS (replace with your commands)
         run: |
           export AWS_ACCESS_KEY_ID=$(cat eks-credentials.txt | head -n 1)
@@ -44,4 +51,4 @@ jobs:
       - name: Deploy to EKS Cluster
         run: |
           # Add your deployment commands here
-          kubectl apply -f .github/workflows/deployment.yml -n my-namespace
+          kubectl apply -f deployment.yml -n my-namespace
