@@ -6,15 +6,15 @@ on:
       - main
 
 jobs:
-  build-and-deploy: 
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Install AWS CLI
-        uses: aws-actions/aws-cli@v2
-        with:
-          aws-version: '2.28.0' # Or a compatible version
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
 
       - name: Configure AWS credentials
         run: |
@@ -26,7 +26,7 @@ jobs:
         id: get-credentials
         run: |
           cluster_name=harisheks
-          aws eks describe-cluster --name $harisheks | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
+          aws eks describe-cluster --name $cluster_name | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
 
       - name: Assume role and store credentials (adapt based on your needs)
         run: |
