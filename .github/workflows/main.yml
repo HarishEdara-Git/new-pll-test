@@ -23,29 +23,10 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ${{ secrets.AWS_REGION }}
 
-      - name: Get cluster credentials (assuming the created role has describe rights)
-        id: get-credentials
-        run: |
-          cluster_name=harisheks
-          aws eks describe-cluster --name $cluster_name | jq -r '.cluster.identity.arn' > cluster-identity-arn.txt
-
-      - name: Assume role and store credentials (adapt based on your needs)
-        run: |
-          aws sts assume-role \
-            --role-arn $(cat cluster-identity-arn.txt) \
-            --role-session-name github-actions-eks-access \
-            --output text | jq -r '.Credentials.AccessKeyId,.Credentials.SecretAccessKey,.Credentials.SessionToken' > eks-credentials.txt
-
       - name: Update kubeconfig with EKS credentials
         run: aws eks update-kubeconfig --name harisheks --region ap-south-1 --kubeconfig ~/.kube/config
-
-      - name: Use AWS CLI to interact with EKS (replace with your commands)
-        run: |
-          export AWS_ACCESS_KEY_ID=$(cat eks-credentials.txt | head -n 1)
-          export AWS_SECRET_ACCESS_KEY=$(cat eks-credentials.txt | head -n 2 | tail -n 1)
-          export AWS_SESSION_TOKEN=$(cat eks-credentials.txt | tail -n 1)
 
       - name: Deploy to EKS Cluster
         run: |
           # Add your deployment commands here
-          kubectl delete -f .github/workflows/deployment.yml -n my-namespace
+          kubectl apply -f .github/workflows/deployment.yml -n my-namespace
