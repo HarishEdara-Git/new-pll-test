@@ -38,10 +38,6 @@ jobs:
       - name: Update kubeconfig with EKS credentials
         run: aws eks update-kubeconfig --name harisheks --region ap-south-1 --kubeconfig ~/.kube/config
 
-      - name: Update Kubernetes cluster endpoint URL
-        run: |
-          kubectl config set-cluster harisheks --server=https://1E122A519D99993356246483D0C2739E.yl4.ap-south-1.eks.amazonaws.com
-
       - name: Use AWS CLI to interact with EKS (replace with your commands)
         run: |
           export AWS_ACCESS_KEY_ID=$(cat eks-credentials.txt | head -n 1)
