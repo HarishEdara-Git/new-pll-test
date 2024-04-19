@@ -39,8 +39,8 @@ jobs:
 
       - name: Update kubeconfig with EKS credentials
         run: |
-          aws eks update-kubeconfig --name harisheks --region ap-south-1 --kubeconfig /root/.kube/config
-          kubectl config set-cluster harisheks --server=https://1E122A519D99993356246483D0C2739E.yl4.ap-south-1.eks.amazonaws.com --kubeconfig /root/.kube/config
+          aws eks update-kubeconfig --name harisheks --region ap-south-1 --kubeconfig ~/.kube/config
+          kubectl config set-cluster harisheks --server=https://1E122A519D99993356246483D0C2739E.yl4.ap-south-1.eks.amazonaws.com --kubeconfig ~/.kube/config
 
       - name: Apply deployment.yml
         run: kubectl apply -f .github/workflows/deployment.yml -n my-namespace
